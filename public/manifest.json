@@ -1,0 +1,8 @@
+{
+  "short_name": "SIL",
+  "name": "SIL is a fun way to play with your friends. It is a game that is played with cards and you can play with your friends.",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#000000"
+}

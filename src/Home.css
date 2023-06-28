@@ -1,0 +1,460 @@
+
+.home_wrrpr{}
+
+.container{}
+
+
+
+.home_banner{
+  /* width: 100%; */
+}
+
+.home_dv1{}
+.home_dv2{
+  height: 100vh;
+  width: 100%;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.home_dv3{
+  height: 100%;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.home_title{
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  margin-bottom: 25px;
+}
+.home_title img{
+  width: 600px;
+}
+.home_title h1{
+  margin: 0;
+  font-size: 180px;
+  color: #a4681f;
+  text-transform: uppercase;
+  text-shadow: 5px 5px 0px #ffffff;
+  line-height: 1;
+}
+.home_title span{
+  margin: 0;
+  font-size: 50px;
+  color: #a4681f;
+  text-transform: uppercase;
+  text-shadow: 2px 1px 0px #ffffff;
+  line-height: 1;
+}
+
+.home_buttons{
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+.home_buttons li{
+  list-style: none;
+}
+.home_buttons li .btn{}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.ant-modal-mask {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+
+.popup_style1{}
+.popup_style1 *{
+  /* color: #ffffff; */
+}
+.popup_style1 .ant-modal-content{
+  border-radius: 30px;
+  overflow: hidden;
+  background: #2a2a2a;
+  background-image: linear-gradient(20deg, #010100 20%, #1f1e1c 50%, #010100 80%);
+  border: 6px solid #c981448f;
+}
+.popup_style1 .ant-modal-close{
+  background: #282828;
+  display: flex;
+  width: 30px;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  opacity: 1;
+  top: 12px;
+  right: 15px;
+}
+.popup_style1 .ant-modal-header{
+  background-color: transparent !important;
+  border-color: #4a4a4a;
+}
+.popup_style1 .ant-modal-body{}
+
+
+.popup_style1 .ant-modal-title{
+  color: #ffffff !important;
+}
+.popup_style1 .anticon{}
+.popup_style1 .anticon svg{
+  color: #fff;
+}
+
+.popup_style1 .ant-form-item-label>label{
+  color: #fff;
+}
+
+
+.popup_style1 .ant-modal-content,
+.popup_style1 .ant-modal-header{
+  background-color: #000;
+}
+
+.popup_style1 .ant-modal-title {
+  text-align: center;
+  font-size: 22px;
+}
+.popup_style1 .uploader_dv {}
+.popup_style1 .uploader_dv .ant-col{
+  max-width: 100%;
+}
+
+
+.myform_bb_uploader{
+  width: 130px;
+  margin: auto;
+}
+.myform_bb_uploader input{
+  display: none !important;
+}
+.myform_bb_uploader label{
+  height: 130px;
+  width: 130px;
+  cursor: pointer;
+  background: white;
+  display: block;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+.myform_bb_uploader img{
+  height: 130px;
+  width: 130px;
+  object-fit: cover;
+  /* border-radius: 50%; */
+}
+.myform_bb_uploader svg{
+  background: #586269;
+  padding: 6px;
+  font-size: 30px;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 15px;
+  right: 0;
+}
+
+
+
+
+
+
+
+
+
+
+.popup_style1 .modal_foter{
+  padding-top: 10px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.popup_style1 .modal_foter .ant-btn {
+  margin: 0 5px;
+  background: #a56a23;
+  background-image: linear-gradient(45deg, #e19c5b , #833702);
+  display: flex;
+  height: 50px;
+  width: 140px;
+  font-size: 16px;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  text-transform: uppercase;
+  font-weight: 700;
+  border-radius: 3px;
+  cursor: pointer;
+  border: hidden;
+  padding-top: 5px;
+  border-bottom: 3px solid #ffb276;
+}
+.popup_style1 .modal_foter .ant-btn-primary{}
+
+.popup_style1 .ant-upload{
+  color: #ffffff;
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+
+
+
+
+
+
+
+
+
+
+.popup_style1 .input_field_dv{
+  margin-bottom: 15px;
+}
+.popup_style1 .input_field_dv .ant-form-item-label{
+  flex: 0 0 100%;
+  max-width: 100%;
+  text-align: left;
+}
+.popup_style1 .input_field_dv .ant-form-item-label label{}
+
+.popup_style1 .input_field_dv .ant-form-item-control{
+  flex: 0 0 100%;
+  max-width: 100%;
+  text-align: left;
+}
+.popup_style1 .input_field_dv .ant-form-item-control-input{}
+.popup_style1 .input_field_dv .ant-form-item-control-input-content{}
+.popup_style1 .input_field_dv input{
+  background: transparent !important;
+  border: 1px solid #4a4a4a !important;
+  height: 50px;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  padding: 0 20px !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
