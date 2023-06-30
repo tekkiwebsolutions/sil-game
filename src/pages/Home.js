@@ -39,13 +39,11 @@ const Home = () => {
 
 
   const onFinishPopup = (values) => {
-    // if (userImage) {
     createRoom(loginType, userImage, values.user_name, values.room_name, values.room_password).then((res) => {
       if (res.success) {
         navigate('/table');
       }
     });
-    // }
   };
 
   const onFinishFailedPopup = (errorInfo) => {
@@ -58,64 +56,8 @@ const Home = () => {
   };
 
 
-
-  // const uploadedImage = React.useRef(null);
-
-  // const handleImageUpload = (e) => {
-  //   if (Array.from(e.target.files).length > 1) {
-  //     alert.error('Please Select 1 Photo');
-  //     return;
-  //   }
-  //   const [file] = e.target.files;
-  //   if (!file.name.match(/\.(jpg|jpeg|png|gif)$/)) {
-  //     alert.error('Please use valid .jpg .jpeg .png .gif files');
-  //     return;
-  //   }
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     const { current } = uploadedImage;
-  //     current.file = file;
-  //     reader.onload = (e) => {
-  //       current.src = e.target.result;
-  //     };
-  //     reader.readAsDataURL(file);
-  //     setUserImage(file)
-  //     // updateProfilePictureCall(file, authState.token);
-  //   }
-  // };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   return (
     <>
-
-
-
-
-
-
-
-
       <section className='home_wrrpr'>
         <div className='container'>
           <Row>
@@ -140,48 +82,6 @@ const Home = () => {
           </Row>
         </div>
       </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
       <Modal
         visible={visiblePopup}
@@ -251,76 +151,6 @@ const Home = () => {
           </div>
         </Form>
       </Modal>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     </>
   )
 }

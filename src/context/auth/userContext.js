@@ -181,10 +181,11 @@ export const UserProvider = ({ children }) => {
     var cardsOnTable = userState.room.current_cards_on_table;
     cardsOnTable.push(card);
 
+
     // update turn
     var indexOfCurrentTurn = userState.room.users.findIndex(user => user.user_id === userState.room.turn);
     var indexOfNextTurn = (indexOfCurrentTurn + 1) % userState.room.users.length;
-    var nextTurn = userState.room.users[indexOfNextTurn].user_id;
+    userState.room.turn = userState.room.users[indexOfNextTurn].user_id;
 
 
     // update room
@@ -192,7 +193,7 @@ export const UserProvider = ({ children }) => {
     return updateDoc(roomRef, {
       users: userState.room.users,
       current_cards_on_table: cardsOnTable,
-      turn: nextTurn
+      turn: userState.room.turn
     }).then(() => {
 
       var tholuUser = checkTholu(cardsOnTable);
@@ -207,24 +208,48 @@ export const UserProvider = ({ children }) => {
         userState.room.users.splice(indexOfUserWhoWonTholu, 1);
         userState.room.users.push(userWhoWonTholu);
 
+        userState.room.turn = userWhoWonTholu.user_id;
+
         // update room
         const roomRef = doc(db, "rooms", userState.room.id);
         return updateDoc(roomRef, {
           users: userState.room.users,
+          turn: userState.room.turn,
           current_cards_on_table: [],
         }).then(() => {
           return { success: true };
         });
       } else {
         // check if all users have played their cards
-        console.log(cardsOnTable, userState.room.users, '=======');
         if (cardsOnTable.length === userState.room.users.length) {
+
+          userState.room.turn = getHighestCard(cardsOnTable).user_id
           
           updateDoc(roomRef, {
             current_cards_on_table: [],
-            turn: getHighestCard(cardsOnTable).user_id
+            turn: userState.room.turn
           })
         }
+
+        var removed_users = userState.room.removed_users ?? [] + userState.room.users.filter((e) => e.cards_in_hand.length === 0);
+
+        
+        if (removed_users.length > 0) {
+          if (removed_users.map((e) => e.user_id).includes(userState.room.turn)) {
+            var indexOfCurrentTurn = userState.room.users.findIndex(user => user.user_id === userState.room.turn);
+            var indexOfNextTurn = (indexOfCurrentTurn + 1) % userState.room.users.length;
+            userState.room.turn = userState.room.users[indexOfNextTurn].user_id;
+          } 
+  
+          userState.room.users = userState.room.users.filter((e) => e.cards_in_hand.length !== 0);
+          
+          updateDoc(roomRef, {
+            users: userState.room.users,
+            removed_users: removed_users,
+            turn: userState.room.turn
+          })
+        }
+
 
       }
 
