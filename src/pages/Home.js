@@ -75,7 +75,7 @@ const Home = () => {
                   </div>
                   <ul className='home_buttons'>
                     <li>
-                      <button className='btn' onClick={() => { showModalPopup(); setLoginType('join'); alert.show('Oh look, an alert!') }}>Join Room</button>
+                      <button className='btn' onClick={() => { showModalPopup(); setLoginType('join'); }}>Join Room</button>
                     </li>
                     <li>
                       <button className='btn' onClick={() => { showModalPopup(); setLoginType('create') }}>Create Room</button>

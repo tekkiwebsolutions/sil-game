@@ -13,6 +13,7 @@ import * as types from "./userReducer";
 import userReducer from "./userReducer";
 
 
+import { useAlert } from 'react-alert'
 
 
 
@@ -36,6 +37,8 @@ export const UserContext = createContext(initialState);
 
 
 export const UserProvider = ({ children }) => {
+
+  const alert = useAlert()
 
   const [userState, dispatch] = useReducer(userReducer, initialState);
 
@@ -88,12 +91,12 @@ export const UserProvider = ({ children }) => {
 
           }).catch((error) => {
             dispatch({ type: types.SET_LOADING, payload: false });
-            console.error("Error adding document: ", error);
+            alert.error('Error while creating room');
             return { success: false };
           });
         } else {
           dispatch({ type: types.SET_LOADING, payload: true });
-          console.log("Room already exists");
+          alert.error('Room already exists with this name');
           return { success: false };
         }
       });
@@ -102,7 +105,7 @@ export const UserProvider = ({ children }) => {
       return getRoomDataFromName(room_name).then((res) => {
         if (res === undefined) {
           dispatch({ type: types.SET_LOADING, payload: false });
-          console.log("Room does not exist");
+          alert.error('Room does not exist with this name');
           return { success: false };
         } else {
           return checkPassword(room_name, room_password).then(async (response) => {
@@ -129,7 +132,7 @@ export const UserProvider = ({ children }) => {
               return { success: true };
             } else {
               dispatch({ type: types.SET_LOADING, payload: false });
-              console.log("Room exists but password is incorrect");
+              alert.error('Room exists but password is incorrect');
               return { success: false };
             }
           });
@@ -145,7 +148,7 @@ export const UserProvider = ({ children }) => {
 
     var cardHands = distributeCards(userState.room.users.length);
 
-    console.log(cardHands);
+    alert.info('Cards Distributed Amoung All the players.');
 
     var indexOfStart = findAceOfSpadesIndex(cardHands);
 
@@ -203,6 +206,8 @@ export const UserProvider = ({ children }) => {
         var userWhoWonTholu = userState.room.users.find(user => user.user_id === tholuUser);
         userWhoWonTholu.cards_in_hand = [...userWhoWonTholu.cards_in_hand, ...cardsOnTable, card];
 
+        alert.info(`${userWhoWonTholu.username} Got Tholu`);
+
         // send user who won the tholu to the end of the users array
         var indexOfUserWhoWonTholu = userState.room.users.findIndex(user => user.user_id === tholuUser);
         userState.room.users.splice(indexOfUserWhoWonTholu, 1);
@@ -232,6 +237,9 @@ export const UserProvider = ({ children }) => {
 
       var removed_users = userState.room.removed_users ?? [] + userState.room.users.filter((e) => e.cards_in_hand.length === 0);        
       if (removed_users.length > 0) {
+
+        alert.info(`${removed_users[0].username} Is Out Now`);
+
         if (removed_users.map((e) => e.user_id).includes(userState.room.turn)) {
           var indexOfCurrentTurn = userState.room.users.findIndex(user => user.user_id === userState.room.turn);
           var indexOfNextTurn = (indexOfCurrentTurn + 1) % userState.room.users.length;
