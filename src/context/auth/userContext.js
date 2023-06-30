@@ -64,7 +64,7 @@ export const UserProvider = ({ children }) => {
                 cards_in_hand: [],
               }
             ],
-            waiting_users: [],
+            watching_users: [],
             removed_users: [],
             current_turn: null,
             current_cards_on_table: [],
@@ -438,7 +438,7 @@ export const UserProvider = ({ children }) => {
       })
     } else {
       return updateDoc(roomRef, {
-        waiting_users: [...room.waiting_users, current_user]
+        watching_users: [...room.watching_users, current_user]
       })
     }
   }
