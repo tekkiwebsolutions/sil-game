@@ -581,6 +581,7 @@
   right: 0;
   bottom: 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 0 10px;
@@ -738,6 +739,23 @@
 .list-wrapper .list-divider{
   height: 20px;
 }
+.list-wrapper .list-user-wrrpr{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.list-wrapper .list-user-wrrpr .user_btn{
+  background: #fff;
+  border: hidden;
+  text-transform: capitalize;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 15px;
+  padding: 2px 12px 1px;
+  cursor: pointer;
+}
+
+
 
 
 

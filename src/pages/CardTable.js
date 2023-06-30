@@ -97,6 +97,12 @@ const CardTable = () => {
         <div className="list-wrapper">
           <ul className="list">
             <UserCard index={0} item={userState.current_user} userState={userState} />
+
+            <li className='list-user-wrrpr'>
+              <button className='user_btn'>hide card</button>
+              {/* <button className='user_btn'>show card</button> */}
+            </li>
+
             <li class="list-divider"></li>
             <li class="list-heading"><h3>Playing</h3></li>
             {userState.room.users.map((item, index) => {
@@ -118,7 +124,7 @@ const CardTable = () => {
 
         <div className='my_cards_wrrpr'>
           <div className="card-place">
-            {userState.room.status !== 'waiting' && userState.room.users.filter((e) => e.user_id === userState.current_user.user_id).length > 0 &&  userState.room.users.filter((e) => e.user_id === userState.current_user.user_id)[0].cards_in_hand.map((item, index) => {
+            {userState.room.status !== 'waiting' && userState.room.users.filter((e) => e.user_id === userState.current_user.user_id).length > 0 && userState.room.users.filter((e) => e.user_id === userState.current_user.user_id)[0].cards_in_hand.map((item, index) => {
               return (
                 <div key={index} className={`card_dv ${userState.room.current_cards_on_table.length > 0 && userState.room.current_cards_on_table[0].suit !== item.suit && !canPlay() ? 'disabled' : ''}`} onClick={() => {
                   console.log('AAAA');
