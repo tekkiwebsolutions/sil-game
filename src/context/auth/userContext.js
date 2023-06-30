@@ -64,6 +64,8 @@ export const UserProvider = ({ children }) => {
                 cards_in_hand: [],
               }
             ],
+            waiting_users: [],
+            removed_users: [],
             current_turn: null,
             current_cards_on_table: [],
           }).then((doc) => {
@@ -110,8 +112,6 @@ export const UserProvider = ({ children }) => {
         } else {
           return checkPassword(room_name, room_password).then(async (response) => {
             if (response) {
-              console.log("Room exists and password is correct");
-              console.log(res);
               dispatch({
                 type: types.SET_INITIAL_DATA_REDUCER,
                 payload: res
@@ -126,7 +126,11 @@ export const UserProvider = ({ children }) => {
                 type: types.SET_USER_DATA,
                 payload: user
               });
-              await addUserToTheRoom(res, user);
+              if (res.status === 'waiting' && res.room.users <= 8) {
+                await addUserToTheRoom(res, user, true);
+              } else {
+                await addUserToTheRoom(res, user, false);
+              }
               changeRoomOnDocChange(res.id);
               dispatch({ type: types.SET_LOADING, payload: false });
               return { success: true };
@@ -426,11 +430,17 @@ export const UserProvider = ({ children }) => {
     });
   }
 
-  function addUserToTheRoom(room, current_user) {
+  function addUserToTheRoom(room, current_user, playing) {
     const roomRef = doc(db, "rooms", room.id);
-    return updateDoc(roomRef, {
-      users: [...room.users, current_user]
-    })
+    if (playing) {
+      return updateDoc(roomRef, {
+        users: [...room.users, current_user]
+      })
+    } else {
+      return updateDoc(roomRef, {
+        waiting_users: [...room.waiting_users, current_user]
+      })
+    }
   }
 
   function changeRoomOnDocChange(room_id) {
