@@ -13,39 +13,11 @@ const CardTable = () => {
   const [timerTracker] = useState(0);
 
 
-
-
-
-
-  // const startTimerTracker = () => {
-  //   let interval = null;
-  //   interval = setInterval(() => {
-  //     setTimerTracker((timerTracker) => timerTracker + 10);
-  //   }, 10);
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }
-
-  // const sendMessageToWebsocket = useCallback((command, data) => sendMessage(JSON.stringify({
-  //   command: command,
-  //   ...data
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // })), []);
-
-  // const getCardNumber = (number) => {
-  //   if (number === "14") {
-  //     return 'A';
-  //   } else if (number === "11") {
-  //     return 'J';
-  //   } else if (number === "12") {
-  //     return 'Q';
-  //   } else if (number === "13") {
-  //     return 'K';
-  //   } else {
-  //     return number;
-  //   }
-  // }
+  const canPlay = () => {
+    return !userState.room.users.filter((e) => e.user_id === userState.current_user.user_id)[0].cards_in_hand.some(
+      item => userState.room.current_cards_on_table[0].suit === item.suit
+    )
+  }
 
 
   if (userState.loading) {
@@ -58,19 +30,11 @@ const CardTable = () => {
   return (
     <>
       <div className={`table_container ${userState.room.status === 'waiting' ? "unactive_table" : null}`}>
-
-
-
-
         <img className='main_logo' src={BhabiLogo} alt="logo" />
 
 
 
-
-
-
         <div className="table">
-
           <img className='logo' src={BhabiLogo} alt="logo" />
 
           {userState.room.current_cards_on_table.length ? <>
@@ -84,7 +48,6 @@ const CardTable = () => {
                   </div>
                 )
               })}
-
             </div>
           </> : <>
             <div className="card-place">
@@ -97,6 +60,7 @@ const CardTable = () => {
 
             </div>
           </>}
+
 
           <div className="players">
             {userState.room.users.map((item, index) => {
@@ -118,17 +82,6 @@ const CardTable = () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
         <div className='time_tracker'>
           <h3>Game Time : {("0" + Math.floor((timerTracker / 60000) % 60)).slice(-2)}:{("0" + Math.floor((timerTracker / 1000) % 60)).slice(-2)}</h3>
         </div>
@@ -140,24 +93,8 @@ const CardTable = () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <div className="list-wrapper">
           <ul className="list">
-
             {userState.room.users.map((item, index) => {
               return (
                 <li key={index} className={`list-item ${item.status === 'Watching' ? 'watching' : ''} ${userState.current_user.user_id === item.user_id ? 'my_user' : ''}`} style={{ order: `${item.status === 'Watching' ? '1' : '-' + item.number_cards_in_hand}` }}>
@@ -174,8 +111,6 @@ const CardTable = () => {
                 </li>
               )
             })}
-
-
           </ul>
         </div>
 
@@ -183,37 +118,14 @@ const CardTable = () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <div className='my_cards_wrrpr'>
           <div className="card-place">
-
-
-
-
-
-
-            {userState.room.status !== 'waiting' && userState.room.users.filter((e) => e.user_id === userState.current_user.user_id)[0].cards_in_hand.map((item, index) => {
+            {userState.room.status !== 'waiting' && userState.room.users.filter((e) => e.user_id === userState.current_user.user_id).length > 0 &&  userState.room.users.filter((e) => e.user_id === userState.current_user.user_id)[0].cards_in_hand.map((item, index) => {
               return (
-                <div key={index} className={`card_dv ${userState.room.current_cards_on_table.length > 0 && userState.room.current_cards_on_table[0].suit !== item.suit ? 'disabled' : ''}`} onClick={() => {
+                <div key={index} className={`card_dv ${userState.room.current_cards_on_table.length > 0 && userState.room.current_cards_on_table[0].suit !== item.suit && !canPlay() ? 'disabled' : ''}`} onClick={() => {
                   console.log('AAAA');
                   if (userState.current_user.user_id === userState.room.turn) {
-                    if (userState.room.current_cards_on_table.length > 0 && userState.room.current_cards_on_table[0].suit !== item.suit) {
+                    if (userState.room.current_cards_on_table.length > 0 && userState.room.current_cards_on_table[0].suit !== item.suit && !canPlay()) {
                       return;
                     }
                     item.user_id = userState.current_user.user_id;
@@ -228,26 +140,8 @@ const CardTable = () => {
                 </div>
               )
             })}
-
-
-
-
-
-
-
-
-
-
           </div>
         </div>
-
-
-
-
-
-
-
-
 
 
       </div>
@@ -258,8 +152,6 @@ const CardTable = () => {
 
 
       {/* Game Popup */}
-
-      {console.log(userState)}
 
       {userState.room.status === 'waiting' ? <>
         <div className='game_popup_wrrpr'>
