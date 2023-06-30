@@ -113,6 +113,11 @@ const CardTable = () => {
             <li class="list-divider"></li>
 
             <li class="list-heading"><h3>Out Users</h3></li>
+            {userState.room.removed_users && userState.room.removed_users.map((item, index) => {
+              return (
+                <UserCard index={index} item={item} userState={userState} />
+              )
+            })}
             <li class="list-divider"></li>
             <li class="list-heading"><h3>Watching Users</h3></li>
           </ul>

@@ -212,13 +212,11 @@ export const UserProvider = ({ children }) => {
 
         // update room
         const roomRef = doc(db, "rooms", userState.room.id);
-        return updateDoc(roomRef, {
+        updateDoc(roomRef, {
           users: userState.room.users,
           turn: userState.room.turn,
           current_cards_on_table: [],
-        }).then(() => {
-          return { success: true };
-        });
+        })
       } else {
         // check if all users have played their cards
         if (cardsOnTable.length === userState.room.users.length) {
@@ -230,27 +228,23 @@ export const UserProvider = ({ children }) => {
             turn: userState.room.turn
           })
         }
+      }
 
-        var removed_users = userState.room.removed_users ?? [] + userState.room.users.filter((e) => e.cards_in_hand.length === 0);
+      var removed_users = userState.room.removed_users ?? [] + userState.room.users.filter((e) => e.cards_in_hand.length === 0);        
+      if (removed_users.length > 0) {
+        if (removed_users.map((e) => e.user_id).includes(userState.room.turn)) {
+          var indexOfCurrentTurn = userState.room.users.findIndex(user => user.user_id === userState.room.turn);
+          var indexOfNextTurn = (indexOfCurrentTurn + 1) % userState.room.users.length;
+          userState.room.turn = userState.room.users[indexOfNextTurn].user_id;
+        } 
 
+        userState.room.users = userState.room.users.filter((e) => e.cards_in_hand.length !== 0);
         
-        if (removed_users.length > 0) {
-          if (removed_users.map((e) => e.user_id).includes(userState.room.turn)) {
-            var indexOfCurrentTurn = userState.room.users.findIndex(user => user.user_id === userState.room.turn);
-            var indexOfNextTurn = (indexOfCurrentTurn + 1) % userState.room.users.length;
-            userState.room.turn = userState.room.users[indexOfNextTurn].user_id;
-          } 
-  
-          userState.room.users = userState.room.users.filter((e) => e.cards_in_hand.length !== 0);
-          
-          updateDoc(roomRef, {
-            users: userState.room.users,
-            removed_users: removed_users,
-            turn: userState.room.turn
-          })
-        }
-
-
+        updateDoc(roomRef, {
+          users: userState.room.users,
+          removed_users: removed_users,
+          turn: userState.room.turn
+        })
       }
 
     }).catch((error) => {

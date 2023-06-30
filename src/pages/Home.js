@@ -11,9 +11,14 @@ import 'antd/dist/antd.css';
 import { Col, Row, Button, Modal, Form, Input } from 'antd';
 import { UserContext } from '../context/auth/userContext';
 
+import { useAlert } from 'react-alert'
+
 
 
 const Home = () => {
+
+  const alert = useAlert()
+
   const { createRoom } = useContext(UserContext);
 
   const [Name, setName] = useState('');
@@ -23,6 +28,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const [loginType, setLoginType] = useState('')
+  
 
   // Join Room Popup
   const [visiblePopup, setVisiblePopup] = useState(false);
@@ -69,7 +75,7 @@ const Home = () => {
                   </div>
                   <ul className='home_buttons'>
                     <li>
-                      <button className='btn' onClick={() => { showModalPopup(); setLoginType('join') }}>Join Room</button>
+                      <button className='btn' onClick={() => { showModalPopup(); setLoginType('join'); alert.show('Oh look, an alert!') }}>Join Room</button>
                     </li>
                     <li>
                       <button className='btn' onClick={() => { showModalPopup(); setLoginType('create') }}>Create Room</button>
