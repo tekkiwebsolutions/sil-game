@@ -5,13 +5,21 @@ import CardBack from '../img/card_back.jpg'
 import { UserContext } from '../context/auth/userContext';
 import Loader1 from '../components/Loader1';
 import UserCard from './UserCard';
+import { useNavigate } from 'react-router';
 
 
 const CardTable = () => {
 
   const { userState, startGame, playCard } = useContext(UserContext);
-
   const [timerTracker] = useState(0);
+  const navigate = useNavigate();
+
+
+  const [handCardVisibilty, setHandCardVisibilty] = useState(true)
+
+
+
+
 
 
   const canPlay = () => {
@@ -26,6 +34,13 @@ const CardTable = () => {
       <Loader1 />
     )
   }
+
+
+
+
+
+
+
 
 
   return (
@@ -99,7 +114,12 @@ const CardTable = () => {
             <UserCard index={0} item={userState.current_user} userState={userState} />
 
             <li className='list-user-wrrpr'>
-              <button className='user_btn'>hide card</button>
+              <button className='user_btn' onClick={() => { setHandCardVisibilty(!handCardVisibilty) }}>{handCardVisibilty ? 'Hide cards' : 'Show cards'}</button>
+              <button className='user_btn' onClick={() => { localStorage.removeItem('MY_APP_STATE'); navigate('/'); }}>Quit game</button>
+
+
+
+
               {/* <button className='user_btn'>show card</button> */}
             </li>
 
@@ -131,7 +151,7 @@ const CardTable = () => {
           <div className="card-place">
             {userState.room.status !== 'waiting' && userState.room.users.filter((e) => e.user_id === userState.current_user.user_id).length > 0 && userState.room.users.filter((e) => e.user_id === userState.current_user.user_id)[0].cards_in_hand.map((item, index) => {
               return (
-                <div key={index} className={`card_dv ${userState.room.current_cards_on_table.length > 0 && userState.room.current_cards_on_table[0].suit !== item.suit && !canPlay() ? 'disabled' : ''}`} onClick={() => {
+                <div key={index} className={`card_dv ${handCardVisibilty ? 'card_visibilty_show' : 'card_visibilty_hide'} ${userState.room.current_cards_on_table.length > 0 && userState.room.current_cards_on_table[0].suit !== item.suit && !canPlay() ? 'disabled' : ''}`} onClick={() => {
                   console.log('AAAA');
                   if (userState.current_user.user_id === userState.room.turn) {
                     if (userState.room.current_cards_on_table.length > 0 && userState.room.current_cards_on_table[0].suit !== item.suit && !canPlay()) {
@@ -145,6 +165,9 @@ const CardTable = () => {
                     <h1>{item.rank}</h1>
                     <div className={`figures ${item.suit === "♥" ? "hearts" : item.suit === "♦" ? "diamonds" : item.suit === "♣" ? "clubs" : "spades"}`}></div>
                     <h1>{item.rank}</h1>
+                  </div>
+                  <div className='card_back'>
+                  <img src={CardBack} alt="" />
                   </div>
                 </div>
               )
