@@ -337,8 +337,8 @@
   opacity: 0.3;
 }
 .players .player .avatar {
-  width: 120px;
-  height: 120px;
+  width: 123px;
+  height: 123px;
   background-color: #444444;
   border-radius: 100%;
   position: relative;
@@ -347,18 +347,40 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 .players .player .avatar img{
   width: 110px;
   height: 110px;
   border-radius: 50%;
   object-fit: cover;
+  position: relative;
 }
 
 
-.players .player .avatar.my_user {
-  background-color: #d00904;
-  box-shadow: 0px 0px 10px 1px rgb(255 255 255 / 40%);
+.players .player .avatar:before {
+  content: '';
+  position: absolute;
+  background: transparent;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: 100%;
+  animation: currunt_user_playing_animation 3s infinite linear;
+  transform: rotate(0deg);
+  transform-origin: left top;
+}
+.players .player.playing .avatar:before {
+  background: #0fab0f;
+}
+
+@keyframes currunt_user_playing_animation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 /* .players .player .avatar:after {
   content: '';
@@ -390,7 +412,7 @@
   letter-spacing: 0.5px;
   text-transform: capitalize;
 }
-.players .player.playing:before {
+/* .players .player.playing:before {
   content: '...';
   color: #010100;
   font-size: 20px;
@@ -404,7 +426,7 @@
   z-index: 100;
   left: 30px;
   box-shadow: 0px 0px 1px 0px rgb(0 0 0 / 50%);
-}
+} */
 .players .player.player-1 {
   top: 0px;
   left: 50%;
@@ -652,7 +674,7 @@
 
 
 .list-wrapper {
-  width: 300px;
+  width: 250px;
   position: fixed;
   top: 0;
   right: 0;
@@ -662,7 +684,6 @@
   display: flex;
   align-items: center;
   padding: 0 10px;
-  
 }
 
 .list-wrapper .list {
@@ -676,19 +697,91 @@
   flex-direction: column;
 }
 
+.list-wrapper .list-heading {
+  position: relative;
+  display: flex;
+  /* background: #fff; */
+  /* margin: 0; */
+  /* padding: 1px; */
+  /* border-radius: 50px; */
+  /* gap: 10px; */
+  margin-bottom: 15px;
+  align-items: center;
+  justify-content: center;
+}
+
+.list-wrapper .list-heading:before{
+  content: '';
+  height: 1px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  background: #fff;
+}
+.list-wrapper .list-heading h3{
+  position: relative;
+  margin: 0;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #fff;
+  background: #000;
+  padding: 0 10px;
+}
+
+
+.list-wrapper .list-divider{
+  height: 20px;
+}
+
+
+
+
+
+
 .list-wrapper .list-item {
   display: flex;
   background: #fff;
   margin: 0;
-  padding: 1px;
+  padding: 7px;
   border-radius: 50px;
   gap: 10px;
   margin-bottom: 15px;
   align-items: center;
 }
-.list-wrapper .list-item.my_user .list-item-image{
-  box-shadow: 0px 0px 0px 5px #d00904;
+
+
+.list-wrapper .list-item.my_user{
+  flex-direction: column;
+  text-align: center;
+  border-radius: 40px / 100%;
+  box-shadow: inset -3px 0 0 0 #fff, inset -8px 0 0 0 #000, inset 3px 0 0 0 #fff, inset 8px 0 0 0 #000;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 18px 7px;
 }
+.list-wrapper .list-item.my_user .list-item-image-dv{
+  margin-top: -20px;
+  background: #fff;
+  border-radius: 50%;
+  padding: 5px;
+}
+.list-wrapper .list-item.my_user .list-item-image{
+  width: 70px;
+  height: 70px;
+}
+
+.list-wrapper .list-item.my_user .list-item-content{}
+.list-wrapper .list-item.my_user .list-item-content h4{}
+
+
+
 
 
 

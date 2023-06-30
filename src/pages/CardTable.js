@@ -4,6 +4,7 @@ import BhabiLogo from '../img/logo.svg'
 import CardBack from '../img/card_back.jpg'
 import { UserContext } from '../context/auth/userContext';
 import Loader1 from '../components/Loader1';
+import UserCard from './UserCard';
 
 
 const CardTable = () => {
@@ -101,7 +102,7 @@ const CardTable = () => {
           <div className="players">
             {userState.room.users.map((item, index) => {
               return (
-                <div key={index} className={`player player-${index + 1} ${userState.room.status !== 'waiting' && item.user_id === userState.room.turn ? "playing": ''}`}>
+                <div key={index} className={`player player-${index + 1} ${userState.room.status !== 'waiting' && item.user_id === userState.room.turn ? "playing" : ''}`}>
                   <div className={`avatar ${userState.current_user.user_id === item.user_id ? 'my_user' : ''}`}>
                     <img src={item.userimage} alt={item.username} />
                   </div>
@@ -157,25 +158,19 @@ const CardTable = () => {
 
         <div className="list-wrapper">
           <ul className="list">
-
+            <UserCard index={0} item={userState.current_user} userState={userState} />
+            <li class="list-divider"></li>
+            <li class="list-heading"><h3>Playing</h3></li>
             {userState.room.users.map((item, index) => {
               return (
-                <li key={index} className={`list-item ${item.status === 'Watching' ? 'watching' : ''} ${userState.current_user.user_id === item.user_id ? 'my_user' : ''}`} style={{ order: `${item.status === 'Watching' ? '1' : '-' + item.number_cards_in_hand}` }}>
-                  <div>
-                    <img src={item.userimage} className="list-item-image" alt={item.username} />
-                  </div>
-                  <div className="list-item-content">
-                    <h4>{item.username}</h4>
-
-                    <p className={`user_chat ${item.status === 'playing' ? 'playing' : item.status === 'out' ? 'out' : item.status === 'Watching' ? 'watching' : ''}`}>{item.status}</p>
-
-                    {item.number_cards_in_hand === 0 ? '' : <p className='in_hand_cards'>Cards in Hand {item.number_cards_in_hand}</p>}
-                  </div>
-                </li>
+                !(userState.current_user.user_id === item.user_id) && <UserCard index={index} item={item} userState={userState} />
               )
             })}
+            <li class="list-divider"></li>
 
-
+            <li class="list-heading"><h3>Out Users</h3></li>
+            <li class="list-divider"></li>
+            <li class="list-heading"><h3>Watching Users</h3></li>
           </ul>
         </div>
 

@@ -6,11 +6,12 @@ import React, {
 } from 'react'
 // import { API } from '../../const';
 
+import { collection, addDoc, doc, updateDoc, query, where, getDocs, onSnapshot, } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
+
 import * as types from "./userReducer";
 import userReducer from "./userReducer";
 
-import { db } from "../../firebaseConfig";
-import { collection, addDoc, doc, updateDoc, query, where, getDocs, onSnapshot, } from "firebase/firestore";
 
 
 
