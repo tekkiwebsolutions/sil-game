@@ -290,9 +290,9 @@ const CardTable = () => {
 
 
       {/* Game Start Popup */}
-      {/* {userState.room.status === 'waiting' ? <WaitingPopup /> : null} */}
-      
-      {userState.room.status === 'waiting' ? <GameOverPopup /> : null}
+      {userState.room.status === 'waiting' ? <WaitingPopup /> : null}
+
+      {/* {userState.room.status === 'waiting' ? <GameOverPopup /> : null} */}
 
 
       
