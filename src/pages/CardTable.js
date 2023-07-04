@@ -1,4 +1,4 @@
-import React, { useState, useContext, } from 'react'
+import React, { useState, useContext } from 'react'
 import '../CardTable.css';
 import BhabiLogo from '../img/logo.svg'
 import CardBack from '../img/card_back.jpg'
@@ -6,11 +6,13 @@ import { UserContext } from '../context/auth/userContext';
 import Loader1 from '../components/Loader1';
 import UserCard from './UserCard';
 import { useNavigate } from 'react-router';
+import WaitingPopup from '../components/WaitingPopup';
+import GameOverPopup from '../components/GameOverPopup';
 
 
 const CardTable = () => {
 
-  const { userState, startGame, playCard } = useContext(UserContext);
+  const { userState, playCard } = useContext(UserContext);
   const [timerTracker] = useState(0);
   const navigate = useNavigate();
 
@@ -29,19 +31,71 @@ const CardTable = () => {
   }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   if (userState.loading) {
     return (
       <Loader1 />
     )
   }
-
-
-
-
-
-
-
-
 
   return (
     <>
@@ -56,13 +110,16 @@ const CardTable = () => {
           {userState.room.current_cards_on_table.length ? <>
             <div className="card-place">
               {userState.room.current_cards_on_table.map((item, index) => {
-                return (
-                  <div key={index} className="card">
-                    <h1>{item.rank}</h1>
-                    <div className={`figures ${item.suit === "♥" ? "hearts" : item.suit === "♦" ? "diamonds" : item.suit === "♣" ? "clubs" : "spades"}`}></div>
-                    <h1>{item.rank}</h1>
+                return <>
+                  <div key={index} className='card_wrrpr_table'>
+                    <div className="card">
+                      <h1>{item.rank}</h1>
+                      <div className={`figures ${item.suit === "♥" ? "hearts" : item.suit === "♦" ? "diamonds" : item.suit === "♣" ? "clubs" : "spades"}`}></div>
+                      <h1>{item.rank}</h1>
+                    </div>
+                    <p className='name'>{userState.room.users.filter((e) => e.user_id === item.user_id)[0]?.username}</p>
                   </div>
-                )
+                </>
               })}
             </div>
           </> : <>
@@ -109,6 +166,26 @@ const CardTable = () => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <div className="list-wrapper">
           <ul className="list">
             <UserCard index={0} item={userState.current_user} userState={userState} />
@@ -116,11 +193,6 @@ const CardTable = () => {
             <li className='list-user-wrrpr'>
               <button className='user_btn' onClick={() => { setHandCardVisibilty(!handCardVisibilty) }}>{handCardVisibilty ? 'Hide cards' : 'Show cards'}</button>
               <button className='user_btn' onClick={() => { localStorage.removeItem('MY_APP_STATE'); navigate('/'); }}>Quit game</button>
-
-
-
-
-              {/* <button className='user_btn'>show card</button> */}
             </li>
 
             <li class="list-divider"></li>
@@ -135,11 +207,16 @@ const CardTable = () => {
             <li class="list-heading"><h3>Out Users</h3></li>
             {userState.room.removed_users && userState.room.removed_users.map((item, index) => {
               return (
-                <UserCard index={index} item={item} userState={userState} />
+                !(userState.current_user.user_id === item.user_id) && <UserCard index={index} item={item} userState={userState} />
               )
             })}
             <li class="list-divider"></li>
             <li class="list-heading"><h3>Watching Users</h3></li>
+            {userState.room.watching_users.map((item, index) => {
+              return (
+                !(userState.current_user.user_id === item.user_id) && <UserCard index={index} item={item} userState={userState} />
+              )
+            })}
           </ul>
         </div>
 
@@ -147,27 +224,56 @@ const CardTable = () => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <div className='my_cards_wrrpr'>
-          <div className="card-place">
+          <div className="card-place" >
             {userState.room.status !== 'waiting' && userState.room.users.filter((e) => e.user_id === userState.current_user.user_id).length > 0 && userState.room.users.filter((e) => e.user_id === userState.current_user.user_id)[0].cards_in_hand.map((item, index) => {
               return (
-                <div key={index} className={`card_dv ${handCardVisibilty ? 'card_visibilty_show' : 'card_visibilty_hide'} ${userState.room.current_cards_on_table.length > 0 && userState.room.current_cards_on_table[0].suit !== item.suit && !canPlay() ? 'disabled' : ''}`} onClick={() => {
-                  console.log('AAAA');
-                  if (userState.current_user.user_id === userState.room.turn) {
-                    if (userState.room.current_cards_on_table.length > 0 && userState.room.current_cards_on_table[0].suit !== item.suit && !canPlay()) {
-                      return;
+                <div
+                  key={index}
+                  className={`card_dv ${handCardVisibilty ? 'card_visibilty_show' : 'card_visibilty_hide'} ${userState.room.current_cards_on_table.length > 0 && userState.room.current_cards_on_table[0].suit !== item.suit && !canPlay() ? 'disabled' : ''}`}
+                  onClick={() => {
+                    console.log('AAAA');
+                    if (userState.current_user.user_id === userState.room.turn) {
+                      if (userState.room.current_cards_on_table.length > 0 && userState.room.current_cards_on_table[0].suit !== item.suit && !canPlay()) {
+                        return;
+                      }
+                      item.user_id = userState.current_user.user_id;
+                      playCard(item);
                     }
-                    item.user_id = userState.current_user.user_id;
-                    playCard(item);
-                  }
-                }}>
+                  }}
+
+                >
                   <div className="card">
                     <h1>{item.rank}</h1>
                     <div className={`figures ${item.suit === "♥" ? "hearts" : item.suit === "♦" ? "diamonds" : item.suit === "♣" ? "clubs" : "spades"}`}></div>
                     <h1>{item.rank}</h1>
                   </div>
                   <div className='card_back'>
-                  <img src={CardBack} alt="" />
+                    <img src={CardBack} alt="" />
                   </div>
                 </div>
               )
@@ -183,56 +289,13 @@ const CardTable = () => {
 
 
 
-      {/* Game Popup */}
-
-      {userState.room.status === 'waiting' ? <>
-        <div className='game_popup_wrrpr'>
-          <div className='game_popup_overlay'></div>
-          <div className='game_popup_dv1'>
-            <div className='game_popup_dv2'>
-
-              <div className='game_popup_header'>
-                <h3 className='title'>Wating for host to start the game</h3>
-                <h3 className='title2'>Room Name - {userState.room.room_name}</h3>
-
-              </div>
-
-              <div className='game_popup_body'>
-                <ul className="list">
-                  {/* {users.map((item, index) => {
-                    return (
-                      <li key={index} className={item.host ? 'its_my_host' : null}>
-                        <img className='list-item-image' src={item.user_image} alt={item.username} />
-                        <h4 className="list-item-content">{item.username}</h4>
-                      </li>
-                    )
-                  })} */}
-                  <li className={userState.current_user.host ? 'its_my_host' : null}>
-                    <img className='list-item-image' src={userState.current_user.userimage} alt={userState.current_user.username} />
-                    <h4 className="list-item-content">{userState.current_user.username}</h4>
-                  </li>
-
-                </ul>
-              </div>
+      {/* Game Start Popup */}
+      {/* {userState.room.status === 'waiting' ? <WaitingPopup /> : null} */}
+      
+      {userState.room.status === 'waiting' ? <GameOverPopup /> : null}
 
 
-              {
-                userState.room.host === userState.current_user.user_id ? <>
-                  <div className='game_popup_footer'>
-                    <button className='btn' onClick={() => { startGame() }}>Start match</button>
-                  </div>
-                </> : null
-              }
-
-
-
-            </div>
-          </div>
-        </div>
-      </> : null}
-
-
-
+      
 
 
 

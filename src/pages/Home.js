@@ -10,16 +10,18 @@ import BhabiLogo from '../img/logo.svg'
 import 'antd/dist/antd.css';
 import { Col, Row, Button, Modal, Form, Input } from 'antd';
 import { UserContext } from '../context/auth/userContext';
+import Loader1 from '../components/Loader1';
+import Loader2 from '../components/Loader2';
 
-import { useAlert } from 'react-alert'
+// import { useAlert } from 'react-alert'
 
 
 
 const Home = () => {
 
-  const alert = useAlert()
+  // const alert = useAlert()
 
-  const { createRoom } = useContext(UserContext);
+  const { userState, createRoom } = useContext(UserContext);
 
   const [Name, setName] = useState('');
 
@@ -28,7 +30,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const [loginType, setLoginType] = useState('')
-  
+
 
   // Join Room Popup
   const [visiblePopup, setVisiblePopup] = useState(false);
@@ -64,6 +66,9 @@ const Home = () => {
 
   return (
     <>
+
+      {userState.loading && <Loader2 />}
+
       <section className='home_wrrpr'>
         <div className='container'>
           <Row>

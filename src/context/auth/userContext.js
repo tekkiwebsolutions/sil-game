@@ -21,7 +21,7 @@ import { useAlert } from 'react-alert'
 
 const initialState = {
   tempUserId: null,
-  loading: true,
+  loading: false,
   room: null,
   current_user: null,
 };
@@ -97,7 +97,7 @@ export const UserProvider = ({ children }) => {
             return { success: false };
           });
         } else {
-          dispatch({ type: types.SET_LOADING, payload: true });
+          dispatch({ type: types.SET_LOADING, payload: false });
           alert.error('Room already exists with this name');
           return { success: false };
         }
@@ -126,7 +126,7 @@ export const UserProvider = ({ children }) => {
                 type: types.SET_USER_DATA,
                 payload: user
               });
-              if (res.status === 'waiting' && res.room.users <= 8) {
+              if (res.status === 'waiting' && res.users.length <= 8) {
                 await addUserToTheRoom(res, user, true);
               } else {
                 await addUserToTheRoom(res, user, false);
@@ -239,7 +239,10 @@ export const UserProvider = ({ children }) => {
         }
       }
 
-      var removed_users = userState.room.removed_users ?? [] + userState.room.users.filter((e) => e.cards_in_hand.length === 0);        
+      var removed_users = userState.room.users.filter((e) => e.cards_in_hand.length === 0);        
+
+      console.log(removed_users, 'removed_users');
+
       if (removed_users.length > 0) {
 
         alert.info(`${removed_users[0].username} Is Out Now`);
@@ -254,7 +257,7 @@ export const UserProvider = ({ children }) => {
         
         updateDoc(roomRef, {
           users: userState.room.users,
-          removed_users: removed_users,
+          removed_users: [...userState.room.removed_users, ...removed_users],
           turn: userState.room.turn
         })
       }
@@ -307,7 +310,7 @@ export const UserProvider = ({ children }) => {
         tempUserId: null,
       };
     }
-    if (data.tempUserId !== null) {
+    if (data.tempUserId !== null && data.room ) {
       setPersistentState(data);
       changeRoomOnDocChange(data.room.id)
     }

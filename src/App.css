@@ -40,7 +40,7 @@ body{
 /* width */
 ::-webkit-scrollbar {
   width: 5px;
-  height: 5px;
+  height: 10px;
   border-radius: 5px;
 }
 
@@ -85,6 +85,28 @@ body{
   max-width: 500px;
   animation: loading_animation 2s infinite;
 }
+
+
+
+
+
+.loader2{
+  background: rgb(0 0 0 / 80%) !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999999999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader2 i{
+  background: #d89252;
+}
+
 
 
 
